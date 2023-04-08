@@ -17,8 +17,8 @@ class UnionFind {
 
         if(rootX === rootY) return;
 
-        let sizeX = this.componentsWeight[rootX];
-        let sizeY = this.componentsWeight[rootY];
+        const sizeX = this.componentsWeight[rootX];
+        const sizeY = this.componentsWeight[rootY];
     
         //Weightening
         if(sizeX > sizeY) {
@@ -62,3 +62,19 @@ class UnionFind {
         return Number.isInteger(x) && x >= 0 && x < this.elements.length
     }
 }
+
+const uf = new UnionFind(10);
+
+//console.log(uf.isValid(0));
+
+console.log('1',uf.union(0, 3));
+console.log(uf.union(1, 4));
+console.log(uf.union(2, 3));
+
+console.log(uf.union(4, 3));
+
+
+
+console.log(uf.connected(0, 3));
+console.log(uf.count());
+console.log('uf', uf);
