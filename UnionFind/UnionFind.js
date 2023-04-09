@@ -1,10 +1,10 @@
 class UnionFind {
     constructor(size) {
-        if(size <= 0) throw new Error("size must be > 0");
+        if(size <= 0) throw new Error("Size must be > 0");
 
         this.elements = new Array(size);
         this.componentsWeight = new Array(size);
-        this.componentsCount = this.elements.length;
+        this.componentsCount = size;
 
         for(let i = 0; i < this.elements.length; i++) {
             this.elements[i] = i;
@@ -62,19 +62,3 @@ class UnionFind {
         return Number.isInteger(x) && x >= 0 && x < this.elements.length
     }
 }
-
-const uf = new UnionFind(10);
-
-//console.log(uf.isValid(0));
-
-console.log('1',uf.union(0, 3));
-console.log(uf.union(1, 4));
-console.log(uf.union(2, 3));
-
-console.log(uf.union(4, 3));
-
-
-
-console.log(uf.connected(0, 3));
-console.log(uf.count());
-console.log('uf', uf);
