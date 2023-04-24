@@ -7,17 +7,17 @@ class Queue {
         return this;
     }
     dequeue() {
-        if(this.isEmpty()) throw new Error("Queue is empty!");
+        if(this.isEmpty()) throwError();
 
         return this.queue.shift();
     }
     front() {
-        if(this.isEmpty()) throw new Error("Queue is empty!");
+        if(this.isEmpty()) throwError();
 
         return this.queue[0];
     }
     rear() {
-        if(this.isEmpty()) throw new Error("Queue is empty!");
+        if(this.isEmpty()) throwError();
 
         return this.queue[this.queue.length - 1];
     }
@@ -26,5 +26,8 @@ class Queue {
     }
     isEmpty() {
         return this.queue.length === 0;
+    }
+    throwError() {
+        throw new Error("Queue is empty!");
     }
 }
