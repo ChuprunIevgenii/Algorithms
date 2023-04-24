@@ -81,19 +81,3 @@ class Percolation extends UnionFind {
         return Number.isInteger(row) && Number.isInteger(col) && row >= 0 && row < this.grid.length && col >= 0 && col < this.grid.length;
     }
 }
-
-const percolation = new Percolation(5);
-
-percolation.open(3,3);
-
-percolation.open(3,4)
-percolation.open(2,3)
-percolation.open(1,3)
-percolation.open(0,3)
-percolation.open(3,2)
-console.log('isFull', percolation.isFull(3,3));
-console.log('elements', percolation.elements);
-
-console.log(percolation.numberOfOpenSites());
-
-//console.log(percolation.elements);

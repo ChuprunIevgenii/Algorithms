@@ -33,7 +33,7 @@ class UnionFind {
         return this.elements;
     }
     find(x) { // component identifier for x
-        if(!this.#isValid(x)) return new Error("Invalid value"); 
+        if(!this.#isValid(x)) throw new Error("Invalid value"); 
         if(x === this.elements[x]) return x;
         
         let root = x;
