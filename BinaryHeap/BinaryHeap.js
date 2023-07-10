@@ -6,15 +6,18 @@ class MaxBinaryHeap {
         if(!value) return;
         this.heap.push(value);
         let newElementIndex = this.heap.length - 1;
-        let parentIndex = Math.floor(newElementIndex / 2);
 
-        while(this.heap[newElementIndex] > this.heap[parentIndex]) {
-            this.#swap(newElementIndex, parentIndex);
-            newElementIndex = parentIndex;
-            parentIndex =  Math.floor(newElementIndex / 2);
+        while(true) {
+            parentIndex =  Math.floor((newElementIndex - 1) / 2);
+
+            if(this.heap[newElementIndex] > this.heap[parentIndex]) {
+                this.#swap(newElementIndex, parentIndex);
+                newElementIndex = parentIndex;
+            } else { 
+                return this;
+            }
+           
         }
-        
-        return this;
     }
     delete() {
         if(!this.heap.length) return;
