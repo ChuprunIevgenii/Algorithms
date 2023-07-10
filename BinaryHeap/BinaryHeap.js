@@ -23,29 +23,30 @@ class MaxBinaryHeap {
         if(!this.heap.length) return;
         if(this.heap.length && this.heap.length < 3) return this.heap.shift();
 
-        let targetIndex = 0;
-        let lastIndex = this.heap.length - 1;
-
-        this.#swap(targetIndex, lastIndex);
-        let removedMax = this.heap.pop();
+        let removedMax = this.heap[0];;
+        this.heap[0] = this.heap.pop();
         
+        let targetIndex = 0;
 
         while(true) {
             let leftChildIndex = targetIndex * 2 + 1;
             let rightChildIndex =  targetIndex * 2 + 2;
-            let targetChildIndex;
+            
+            let largerChildIndex;
+            let leftChild = this.heap[leftChildIndex];
+            let rightChild = this.heap[rightChildIndex];
 
-            if(this.heap[leftChildIndex] && !this.heap[rightChildIndex]) {
-                targetChildIndex = leftChildIndex;
-            } else if(this.heap[leftChildIndex] && this.heap[rightChildIndex]) {
-                targetChildIndex = this.heap[leftChildIndex] > this.heap[rightChildIndex] ? leftChildIndex : rightChildIndex
+            if(leftChild && rightChild) {
+                largerChildIndex = leftChild > rightChild ? leftChildIndex : rightChildIndex
+            } else if(leftChild && !rightChild) {
+                largerChildIndex = leftChildIndex;
             } else {
                 break;
             }
 
-            if(this.heap[targetIndex] < this.heap[targetChildIndex]) {
-                this.#swap(targetIndex, targetChildIndex);
-                targetIndex = targetChildIndex;
+            if(this.heap[targetIndex] < this.heap[largerChildIndex]) {
+                this.#swap(targetIndex, largerChildIndex);
+                targetIndex = largerChildIndex;
             } else {
                 break;
             }
