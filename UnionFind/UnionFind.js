@@ -11,7 +11,7 @@ class UnionFind {
             this.componentsWeight[i] = 1;
         }
     }
-    union(x, y) { // add conection between x and y        
+    union(x, y) { // add connection between x and y        
         const rootX = this.find(x);
         const rootY = this.find(y);
 
