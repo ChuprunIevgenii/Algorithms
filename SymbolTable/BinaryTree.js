@@ -61,7 +61,7 @@ class BinaryTree {
             return _getMin(node.left);
         }
     }
-    getMax(){
+    getMax() {
         return _getMax(this.root);
 
         function _getMax(node) {
@@ -70,16 +70,45 @@ class BinaryTree {
             return _getMax(node.right);
         }
     }
-    floor(key){
-       
-    }
-    ceil(){
+    floor(key){ // recursive
+        
+        return _floor(this.root, key, null);
+        
+        function _floor(node, key, floor) {
+            if(!node) return floor;
 
+            if(key < node.key) {
+               return _floor(node.left, key, floor)
+            } else {
+                return _floor(node.right, key, node.key);
+            }
+        }
+    }
+    ceil(key) { // iterative
+        if(!this.root) return null;
+
+        let target = this.root;
+        let ceil = null;
+
+        while(target) {
+            if(key > target.key) {
+                target = target.right;
+            } else if(key < target.key) {
+                ceil = target.key;
+                target = target.left;
+            } else {
+                ceil = target.key;
+                return ceil;
+            }
+        }
+
+        return ceil;
     }
     size(){
-
+        return this.size;
     }
     delete(key){
 
     }
 }
+
