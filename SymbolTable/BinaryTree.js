@@ -9,7 +9,7 @@ class Node {
 class BinaryTree {
     constructor(){
         this.root = null;
-        this.size = 0;
+        this.nodeCount = 0;
     }
     put(key, value) {
         const newNode = new Node(key, value);
@@ -40,20 +40,25 @@ class BinaryTree {
         } else if(key < parentNode.key) {
             parentNode.left = newNode
         }
-        this.size++;
+        this.nodeCount++;
     }
     get(key) {
-        return _get(this.root, key);
+        const node = this.#find(key);
+
+        return node ? node.value : null;
                 
-        function _get(node, key) {
-            if(!node) return null;
-            if(node.key === key) return node.value;
-            if(key < node.key)   return _get(node.left);
-            if(key > node.key)   return _get(node.right);
-        }
     }
-    getMin(){
-        return _getMin(this.root);
+    #find(key, node = this.root) { // preorder
+        if(!node) return null;
+        if(node.key === key) return node;
+        if(key < node.key)   return this.#find(key, node.left);
+        if(key > node.key)   return this.#find(key, node.right);
+    }
+    contains(key) {
+        return this.find(key) === null ? false : true;
+    }
+    getMin(node = this.root){
+        return _getMin(node);
 
         function _getMin(node) {
             if(!node)      return null;
@@ -61,8 +66,8 @@ class BinaryTree {
             return _getMin(node.left);
         }
     }
-    getMax() {
-        return _getMax(this.root);
+    getMax(node = this.root) {
+        return _getMax(node);
 
         function _getMax(node) {
             if(!node)       return null;
@@ -105,9 +110,38 @@ class BinaryTree {
         return ceil;
     }
     size(){
-        return this.size;
+        return this.nodeCount;
     }
-    delete(key){
+    remove(key) {
+        if(this.contains(key)) {
+            this.root = this.#removeNode(key, this.root);
+            this.nodeCount--;
+            return true;
+        }
+        return false;
+    }
+    
+    #removeNode(key, node){
+        if(!node) return null;
+        
+        //find
+        if(key < node.key) {
+            node.left = this.#removeNode(key, node.left);
+        } else if(key > node.key) {
+            node.right = this.#removeNode(key, node.right);
+        } else {
+            if(!node.left && !node.right)      node = null;
+            else if(node.left && !node.right)  node = node.left;
+            else if(!node.left && node.right)  node = node.right;
+            else {
+                const minRightNode = this.getMin(node.right);
+                node.key = minRightNode.key;
+                node.value = minRightNode.value;
+                node.right = this.#removeNode(minRightNode.key, node.right);
+            }
+        }
+
+        return node;
 
     }
 }
