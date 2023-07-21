@@ -18,10 +18,13 @@ class LeftLeaningRedBlackTree { //Left Leaning Red Black Binary Tree
     }
     put(key, value) {
         
-        if(!this.root) return this.root = new Node({ key, value, color: colors.BLACK });
+        if(!this.root) {
+            this.root = new Node({ key, value, color: colors.BLACK });
+        } else {
+            this.root = this.#insert(key, value, this.root);
+            this.root.color = colors.BLACK;
+        }
         
-        this.root = this.#insert(key, value, this.root);
-        this.root.color = colors.BLACK;
         this.nodeCount++;
     }
     get(key) {
@@ -87,7 +90,7 @@ class LeftLeaningRedBlackTree { //Left Leaning Red Black Binary Tree
     #insert(key, value, node) {
         if (node === null) return new Node({ key, value });
 
-        const com = this.#compareTo(node.key, key);
+        const com = this.#compareTo(key, node.key);
 
         if     (com > 0) node.right = this.#insert(key, value, node.right);
         else if(com < 0) node.left = this.#insert(key, value, node.left);
@@ -103,7 +106,7 @@ class LeftLeaningRedBlackTree { //Left Leaning Red Black Binary Tree
         return a - b;
     }
     #isRed(node) {
-        return node.color === colors.RED;
+        return node && node.color === colors.RED;
     }
     #find(key, node = this.root) { // preorder
         if(!node) return null;
@@ -135,4 +138,7 @@ class LeftLeaningRedBlackTree { //Left Leaning Red Black Binary Tree
         if(node.right) node.right.color = colors.BLACK;
     }
 }
+
+const LLRBT = new LeftLeaningRedBlackTree();
+
 
