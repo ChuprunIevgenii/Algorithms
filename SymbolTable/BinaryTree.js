@@ -124,7 +124,6 @@ class BinaryTree {
     #removeNode(key, node){
         if(!node) return null;
         
-        //find
         if(key < node.key) {
             node.left = this.#removeNode(key, node.left);
         } else if(key > node.key) {
