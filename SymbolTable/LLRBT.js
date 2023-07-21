@@ -85,6 +85,8 @@ class LeftLeaningRedBlackTree { //Left Leaning Red Black Binary Tree
         return this.nodeCount;
     }
     #insert(key, value, node) {
+        if (node === null) return new Node({ key, value });
+
         const com = this.#compareTo(node.key, key);
 
         if     (com > 0) node.right = this.#insert(key, value, node.right);
