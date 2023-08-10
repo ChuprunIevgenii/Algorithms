@@ -45,3 +45,5 @@ class LinkedList {
         this.size++;
     }
 }
+
+module.exports = LinkedList;
