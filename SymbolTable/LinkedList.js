@@ -1,6 +1,5 @@
 class Node {
-    constructor(key, value) {
-        this.key = key;
+    constructor(value) {
         this.value = value;
         this.next = null;
     }
@@ -16,24 +15,24 @@ class LinkedList {
         let node = this.head;
 
         while(node !== null) {
-            if(node.key === key) return node.value;
+            if(node.value === value) return node.value;
             node = node.next;
         }
 
         return null;
     }
-    put(key, value) {
+    put(value) {
         let node = this.head;
         
         while(node !== null) {
-            if(key === node.key) {
+            if(value === node.value) {
                 node.value = value;
                 return;
             }
             node = node.next;
         }
 
-        const newNode = new Node(key, value);
+        const newNode = new Node(value);
         
         if(this.tail === null) {
             this.head = newNode;
@@ -43,6 +42,17 @@ class LinkedList {
         
         this.tail = newNode;
         this.size++;
+    }
+    toArray() {
+        const nodes = [];
+        let node = this.head;
+
+        while(node) {
+            nodes.push(node.value);
+            node = node.next;
+        }
+
+        return nodes;
     }
 }
 

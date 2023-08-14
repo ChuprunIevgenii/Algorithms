@@ -10,8 +10,12 @@ class Vertex {
         
         return this;
     }
-    getKey(){
+    getKey() {
         return this.value.toString();
+    }
+    getNeighbours() {
+        const edgesArr = this.edges.toArray();
+        return edgesArr.map(edge => edge.startVertex === this ? edge.endVertex : edge.startVertex);
     }
 }
 
