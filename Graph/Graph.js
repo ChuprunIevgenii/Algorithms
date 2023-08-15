@@ -31,12 +31,12 @@ class Graph {
         const visited = {};
 
         while(queue.length) {
-            const targetVertex = queue.shift();
+            const currentVertex = queue.shift(); // to achive O(1), use queue based on LinkedList
             
-            if(!visited[targetVertex.getKey()]) {
-                if(targetVertex.getKey() === goalVertex.getKey()) return true;
-                visited[targetVertex.getKey()] = true;
-                const neighbours = this.getNeighbours(targetVertex);
+            if(!visited[currentVertex.getKey()]) {
+                if(currentVertex.getKey() === goalVertex.getKey()) return true;
+                visited[currentVertex.getKey()] = true;
+                const neighbours = this.getNeighbours(currentVertex);
                 const unvisitedNeighbours = neighbours.filter(v => !visited[v.getKey()]);
                 queue.push(...unvisitedNeighbours)
             }
@@ -46,7 +46,22 @@ class Graph {
         return false; 
     }
     dfs(startVertex, goalVertex) {
+        let stack = [startVertex];
+        const visited = {};
 
+        while(stack.length) {
+            const currentVertex = stack.pop();
+
+            if(!visited[currentVertex.getKey()]) {
+                if(currentVertex.getKey() === goalVertex.getKey()) return true;
+                visited[currentVertex.getKey()] = true;
+                const neighbours = this.getNeighbours(currentVertex);
+                const unvisitedNeighbours = neighbours.filter(v => !visited[v.getKey()]);
+                stack.push(...unvisitedNeighbours)
+            }
+        }
+
+        return false;
     }
 
 }
@@ -97,7 +112,7 @@ Graph1
     .addEdge(BE)
     .addEdge(EH)
 
-console.log(Graph1.bfs(A, H));
+console.log(Graph1.dfs(A, Z));
 
 
 
