@@ -5,7 +5,7 @@ class Graph {
     constructor(isDirected = false) {
         this.vertices = {};
         this.edges = {};
-        this.isDirected = false;
+        this.isDirected = isDirected;
     }
     addVertex(vertex) {
         this.vertices[vertex.getKey()] = vertex;
@@ -26,19 +26,26 @@ class Graph {
     getNeighbours(vertex) {
         return this.vertices[vertex.getKey()].getNeighbours();
     }
+    getVertices() {
+        return Object.values(this.vertices); 
+    }
     bfs(startVertex, goalVertex) {
         let queue = [startVertex];
-        const visited = {};
+        const visited = new Set();
 
         while(queue.length) {
             const currentVertex = queue.shift(); // to achive O(1), use queue based on LinkedList
             
-            if(!visited[currentVertex.getKey()]) {
+            if(!visited.has(currentVertex.getKey())) {
                 if(currentVertex.getKey() === goalVertex.getKey()) return true;
-                visited[currentVertex.getKey()] = true;
+                visited.add(currentVertex.getKey())
                 const neighbours = this.getNeighbours(currentVertex);
-                const unvisitedNeighbours = neighbours.filter(v => !visited[v.getKey()]);
-                queue.push(...unvisitedNeighbours)
+
+                for(const neighbour of neighbours) {
+                    if(!visited.has(neighbour)) {
+                        queue.push(neighbour)
+                    }
+                }
             }
             
         }
@@ -47,21 +54,50 @@ class Graph {
     }
     dfs(startVertex, goalVertex) {
         let stack = [startVertex];
-        const visited = {};
+        const visited = new Set();
 
         while(stack.length) {
             const currentVertex = stack.pop();
 
-            if(!visited[currentVertex.getKey()]) {
+            if(!visited.has(currentVertex.getKey())) {
                 if(currentVertex.getKey() === goalVertex.getKey()) return true;
-                visited[currentVertex.getKey()] = true;
+                visited.add(currentVertex.getKey())
                 const neighbours = this.getNeighbours(currentVertex);
-                const unvisitedNeighbours = neighbours.filter(v => !visited[v.getKey()]);
-                stack.push(...unvisitedNeighbours)
+
+                for(const neighbour of neighbours) {
+                    if(!visited.has(neighbour)) {
+                        stack.push(neighbour)
+                    }
+                }
             }
         }
 
         return false;
+    }
+
+
+    
+    topologicalSort() {
+        const visited = new Set();
+        const stack = [];
+        const startVertex = this.getVertices()[0];
+    
+        const topologicalDFS = vertex => {
+            if(visited.has(vertex.getKey())) return;
+            visited.add(vertex.getKey());
+            console.log(this);
+            const neighbours = this.getNeighbours(vertex);
+            
+            for(const neighbour of neighbours) {
+                topologicalDFS(neighbour);
+            }
+            
+            stack.push(vertex);
+        }
+
+        topologicalDFS(startVertex);
+
+        return stack.reverse();
     }
 
 }
@@ -82,13 +118,13 @@ const BF = new Edge(B, F);
 const FH = new Edge(F, H);
 const HG = new Edge(H, G);
 const GC = new Edge(G, C);
-const AC = new Edge(A, C);
+//const AC = new Edge(A, C);
 const AD = new Edge(A, D);
 const DH = new Edge(D, H);
 const BE = new Edge(B, E);
 const EH = new Edge(E, H);
 
-const Graph1 = new Graph();
+const Graph1 = new Graph(true);
 
 Graph1
     .addVertex(A)
@@ -106,13 +142,13 @@ Graph1
     .addEdge(FH)
     .addEdge(HG)
     .addEdge(GC)
-    .addEdge(AC)
+    //.addEdge(AC)
     .addEdge(AD)
     .addEdge(DH)
     .addEdge(BE)
     .addEdge(EH)
 
-console.log(Graph1.dfs(A, Z));
+console.log(Graph1.topologicalSort());
 
 
 
