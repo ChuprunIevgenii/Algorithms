@@ -75,17 +75,14 @@ class Graph {
         return false;
     }
 
-
-    
     topologicalSort() {
         const visited = new Set();
         const stack = [];
-        const startVertex = this.getVertices()[0];
+        const vertecies = this.getVertices();
     
         const topologicalDFS = vertex => {
             if(visited.has(vertex.getKey())) return;
             visited.add(vertex.getKey());
-            console.log(this);
             const neighbours = this.getNeighbours(vertex);
             
             for(const neighbour of neighbours) {
@@ -95,7 +92,11 @@ class Graph {
             stack.push(vertex);
         }
 
-        topologicalDFS(startVertex);
+        for(const vertex of vertecies) {
+            if(!visited.has(vertex.getKey())) {
+                topologicalDFS(vertex);
+            }
+        }
 
         return stack.reverse();
     }
