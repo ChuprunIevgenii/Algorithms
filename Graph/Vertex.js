@@ -10,6 +10,9 @@ class Vertex {
         
         return this;
     }
+    deleteEdge(edge) {
+        this.edges.delete(edge);
+    }
     getKey() {
         return this.value.toString();
     }

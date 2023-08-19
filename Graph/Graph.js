@@ -7,6 +7,9 @@ class Graph {
         this.edges = {};
         this.isDirected = isDirected;
     }
+    getVertexByKey(vertexKey) {
+        return this.vertices[vertexKey];
+    }
     addVertex(vertex) {
         this.vertices[vertex.getKey()] = vertex;
         return this;
@@ -23,11 +26,36 @@ class Graph {
 
         return this;
     }
+    deleteEdge(edge) {
+        if (this.edges[edge.getKey()]) {
+            delete this.edges[edge.getKey()];
+          } else {
+            throw new Error('Edge not found in graph');
+          }
+      
+          const startVertex = this.getVertexByKey(edge.startVertex.getKey());
+          const endVertex = this.getVertexByKey(edge.endVertex.getKey());
+      
+          startVertex.deleteEdge(edge);
+          endVertex.deleteEdge(edge);
+    }
+    reverse() {
+        this.getAllEdges().forEach((edge) => {
+            this.deleteEdge(edge);
+            edge.reverse();
+            this.addEdge(edge);
+        });
+    
+        return this;
+      }
     getNeighbours(vertex) {
         return this.vertices[vertex.getKey()].getNeighbours();
     }
     getVertices() {
         return Object.values(this.vertices); 
+    }
+    getAllEdges() {
+        return Object.values(this.edges);
     }
     bfs(startVertex, goalVertex) {
         let queue = [startVertex];
@@ -74,7 +102,6 @@ class Graph {
 
         return false;
     }
-
     topologicalSort() {
         const visited = new Set();
         const stack = [];
@@ -99,6 +126,9 @@ class Graph {
         }
 
         return stack.reverse();
+    }
+    stronglyConnected() {
+
     }
 
 }
@@ -149,7 +179,7 @@ Graph1
     .addEdge(BE)
     .addEdge(EH)
 
-console.log(Graph1.topologicalSort());
+console.log(Graph1);
 
 
 

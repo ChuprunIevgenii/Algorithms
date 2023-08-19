@@ -9,6 +9,13 @@ class Edge {
         const endVertexKey = this.endVertex.getKey();
         return `${startVertexKey}_${endVertexKey}`;
     }
+    reverse() {
+        const tmp = this.startVertex;
+        this.startVertex = this.endVertex;
+        this.endVertex = tmp;
+
+        return this;
+    }
 }
 
 module.exports = Edge;
