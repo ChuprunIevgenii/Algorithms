@@ -6,15 +6,33 @@ class IndexedBinaryHeap {
     }
     enqueue(value) {
         const length = this.values.push(value);
-        const index = length - 1;
-        positions[index] = value;
+        positions[value] = length - 1;
         this.bubbleUp();
     }
-    dequeue() {
+    dequeue(value) {
 
+        if(!this.contains(value)) return false;
+
+        const currentIndex = this.positions[value];
+        const lastIndex = this.values.length - 1;
+        const parentIndex = Math.ceil(currentIndex / 2) - 1;
+        
+        // delete
+        this.swap(currentIndex, lastIndex);
+        delete this.positions[value];
+        this.values.pop();
+        
+        //tweak invariant
+        if(this.values[currentIndex] <= this.values[parentIndex]) {
+            this.bubbleUp(currentIndex);
+        } else {
+            this.bubbleDown(currentIndex);
+        }
+
+        return true;
     }
-    contains(key) {
-        return !!this.positionMap[key];
+    contains(value) {
+        return !!this.positions[value];
     }
     heapify() {}
     sort() {}
